@@ -22,8 +22,6 @@ the language they use.
 
 2 Weeks isnt enough to learn what the university has an entire semester long course for.
 
-Running:
-Click the test task
-press the run button
-
-
+This assignment was submitted unfinished because my machine got caught in a loop attempting to commit a git commit, I couldn't find a way to turn it off
+other than the time-out which is past this assignments due date. Additionally, this assignment has enraged me so much (as you can see above) that I
+do not think I have the mental capacity to finish it. Good day.
