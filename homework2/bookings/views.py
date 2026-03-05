@@ -9,6 +9,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from django.http import HttpResponse
+
 def movie_list_page(request):
     movies = Movie.objects.all().order_by("-release_date")
     return render(request, "bookings/movie_list.html", {"movies": movies})
@@ -17,6 +19,9 @@ def movie_list_page(request):
 def booking_history_page(request):
     bookings = Booking.objects.filter(user=request.user).order_by("-booking_date")
     return render(request, "bookings/booking_history.html", {"bookings": bookings})
+
+def seat_booking_page(request, movie_id):
+    return HttpResponse(f"Seat booking page for movie {movie_id} (coming next)")
 
 class MovieViewSet(viewsets.ModelViewSet):
     """
