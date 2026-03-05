@@ -5,6 +5,19 @@ from django.db import transaction
 from .models import Movie, Seat, Booking
 from .serializers import MovieSerializer, SeatSerializer, BookingSerializer
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
+def movie_list_page(request):
+    movies = Movie.objects.all().order_by("-release_date")
+    return render(request, "bookings/movie_list.html", {"movies": movies})
+
+
+@login_required
+def booking_history_page(request):
+    bookings = Booking.objects.filter(user=request.user).order_by("-booking_date")
+    return render(request, "bookings/booking_history.html", {"bookings": bookings})
 
 class MovieViewSet(viewsets.ModelViewSet):
     """
