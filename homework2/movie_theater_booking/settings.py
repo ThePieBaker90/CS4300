@@ -136,3 +136,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.AllowAny",
     ],
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://editor-bcurtis-21.devedu.io",
+]
