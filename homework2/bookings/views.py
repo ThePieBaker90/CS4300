@@ -13,7 +13,6 @@ def movie_list_page(request):
     movies = Movie.objects.all().order_by("-release_date")
     return render(request, "bookings/movie_list.html", {"movies": movies})
 
-
 @login_required
 def booking_history_page(request):
     bookings = Booking.objects.filter(user=request.user).order_by("-booking_date")
