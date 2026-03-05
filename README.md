@@ -6,3 +6,5 @@ source venv_hw2/bin/activate
 
 To exit:
 deactivate
+
+Artificial Intelligence was used to assist with this assignment. It did not replace my own learning in the assignment. 
