@@ -15,3 +15,4 @@ The webapp has a login system and users, the superuser account is called "super"
 Artificial Intelligence was used to assist with this assignment. It did not replace my own learning in the assignment. It was used as a tool to program python to cover my gaps in knowledge of python (I did not take the python course as it was not required to take this course, I do not have the time among my other classes to learn a semesters worth of python on my own). ChatGPT 5.2 was the model used.
 
 Render URL: https://movie-theater-booking-4lt7.onrender.com/ 
+Github URL: https://github.com/ThePieBaker90/CS4300
