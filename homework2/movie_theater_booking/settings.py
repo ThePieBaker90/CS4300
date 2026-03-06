@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,15 @@ SECRET_KEY = 'django-insecure-818z_p7o13q=#xy4!gkj7d3%hnny%ga2^u&l0=4c^d#&8an@^-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["editor-bcurtis-21.devedu.io", "app-bcurtis-21.devedu.io", "localhost", "127.0.0.1", "testserver"]
+
+
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME, "editor-bcurtis-21.devedu.io", "app-bcurtis-21.devedu.io", "localhost", "127.0.0.1", "testserver"]
+else:
+    ALLOWED_HOSTS = ["editor-bcurtis-21.devedu.io", "app-bcurtis-21.devedu.io", "localhost", "127.0.0.1", "testserver"]
 
 
 # Application definition
@@ -43,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,6 +61,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 ROOT_URLCONF = 'movie_theater_booking.urls'
 
@@ -76,10 +91,10 @@ WSGI_APPLICATION = 'movie_theater_booking.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+    )
 }
 
 
@@ -145,3 +160,16 @@ CSRF_TRUSTED_ORIGINS = [
     "https://editor-bcurtis-21.devedu.io",
     "https://app-bcurtis-21.devedu.io",
 ]
+
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS = [
+        f"https://{RENDER_EXTERNAL_HOSTNAME}",
+        "https://editor-bcurtis-21.devedu.io",
+        "https://app-bcurtis-21.devedu.io"
+    ]
+    
+else:
+    CSRF_TRUSTED_ORIGINS = [
+        "https://editor-bcurtis-21.devedu.io",
+        "https://app-bcurtis-21.devedu.io"
+    ]
