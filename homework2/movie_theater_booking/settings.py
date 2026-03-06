@@ -25,11 +25,10 @@ SECRET_KEY = 'django-insecure-818z_p7o13q=#xy4!gkj7d3%hnny%ga2^u&l0=4c^d#&8an@^-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["editor-bcurtis-21.devedu.io", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["editor-bcurtis-21.devedu.io", "app-bcurtis-21.devedu.io", "localhost", "127.0.0.1"]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -115,7 +114,7 @@ USE_I18N = True
 USE_TZ = True
 
 #This was to fix something earlier
-FORCE_SCRIPT_NAME = "/proxy/8000"
+# FORCE_SCRIPT_NAME = "/proxy/8000"
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
@@ -144,4 +143,5 @@ REST_FRAMEWORK = {
 
 CSRF_TRUSTED_ORIGINS = [
     "https://editor-bcurtis-21.devedu.io",
+    "https://app-bcurtis-21.devedu.io",
 ]
