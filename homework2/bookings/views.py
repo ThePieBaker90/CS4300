@@ -20,8 +20,38 @@ def booking_history_page(request):
     bookings = Booking.objects.filter(user=request.user).order_by("-booking_date")
     return render(request, "bookings/booking_history.html", {"bookings": bookings})
 
+@login_required
+@transaction.atomic
 def seat_booking_page(request, movie_id):
-    return HttpResponse(f"Seat booking page for movie {movie_id} (coming next)")
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    # Show all seats (booked + available)
+    seats = Seat.objects.all().order_by("seat_number")
+
+    if request.method == "POST":
+        seat_id = request.POST.get("seat_id")
+        if not seat_id:
+            messages.error(request, "Please select a seat.")
+            return redirect("seat_booking", movie_id=movie.id)
+
+        # Lock the seat row to prevent double-booking
+        seat = get_object_or_404(Seat.objects.select_for_update(), id=seat_id)
+
+        if seat.is_booked:
+            messages.error(request, f"Seat {seat.seat_number} is already booked. Choose another.")
+            return redirect("seat_booking", movie_id=movie.id)
+
+        # Create booking
+        Booking.objects.create(user=request.user, movie=movie, seat=seat)
+
+        # Mark seat booked
+        seat.is_booked = True
+        seat.save(update_fields=["is_booked"])
+
+        messages.success(request, f"Booked seat {seat.seat_number} for {movie.title}!")
+        return redirect("booking_history")
+
+    return render(request, "bookings/seat_booking.html", {"movie": movie, "seats": seats})
 
 class MovieViewSet(viewsets.ModelViewSet):
     """
